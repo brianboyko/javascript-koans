@@ -150,11 +150,37 @@ describe("About Applying What We Have Learnt", function() {
 
   expect(largestPrimeFactor(600)).toBe(5);
   });
-/*
-  it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
-    
-  });
 
+  it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
+
+    var isPalindrome = function(test){
+      strTest = test.toString();
+      if(
+        strTest.charAt(0) === strTest.charAt(strTest.length-1) &&
+        strTest.charAt(1) === strTest.charAt(strTest.length-2) &&
+        strTest.charAt(2) === strTest.charAt(strTest.length-3) ){
+        return true;
+      } else {
+        return false;
+      }; // This simple test works for all 5 digit and 6 digit numbers. I could impliment a more inclusive version using recrusion to test whether ANY string is a palindrome, but that's not part of the assignment. 
+    };
+
+    var largestPalindrome = function(){
+    var king = 0;
+    var challenger = 0;
+    var i, j; //brute force okay with you? 
+      for(i = 100; i < 1000; i++){
+        for(j = 100; j < 1000; j++){
+          challenger = i * j;
+          if( isPalindrome(challenger) && challenger > king){king = challenger; console.log(i + " , " + j + "king: " + king)};
+        }
+      }
+    return king;
+    };
+
+    expect(largestPalindrome()).toBe(906609); // 913 * 993)
+  });
+/*
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
       
     
