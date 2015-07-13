@@ -140,18 +140,17 @@ describe("About Applying What We Have Learnt", function() {
       var primesLower = findPrimes(composite - 1);
       primesLower.reverse();
       for(var i = 0; i < primesLower.length; i++){
-        console.log(i);
           if(composite % primesLower[i] === 0){
-            var output = primesLower.splice(i, 1)
+            var output = primesLower[i];
                         i = primesLower.length + 1;
           } // end if
       }; // end for
       return output;
     };
 
-
+  expect(largestPrimeFactor(600)).toBe(5);
   });
-
+/*
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
     
   });
@@ -169,6 +168,6 @@ describe("About Applying What We Have Learnt", function() {
 
   });
 
-
+*/
 
 });
