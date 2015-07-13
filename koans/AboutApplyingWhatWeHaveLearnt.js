@@ -11,7 +11,7 @@ describe("About Applying What We Have Learnt", function() {
        { name: "Blue Moon", ingredients: ["blue cheese", "garlic", "walnuts"], containsNuts: true },
        { name: "Taste Of Athens", ingredients: ["spinach", "kalamata olives", "sesame seeds"], containsNuts: true }
     ];
-  });
+  }); //CONGRATULATIONS SAN FRANCISCO, YOU RUINED PIZZA!
 
   /*********************************************************************************/
 
@@ -30,16 +30,28 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+    expect(productsICanEat.length).toBe(1);
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
       var productsICanEat = [];
+          /* solve using filter() & all() / any() */
+          var hasNuts = function(pizza) {
+              return pizza.containsNuts;
+          };
 
-      /* solve using filter() & all() / any() */
+          var hasMush = function(pizza) {
+              return _(pizza.ingredients).any(function(x) {
+                  return x === "mushrooms";
+              });
+          };
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
-  });
+          productsICanEat = products.filter(function(x) {
+              return (!hasNuts(x) && !hasMush(x));
+          });
+
+          expect(productsICanEat.length).toBe(1);
+      });
 
   /*********************************************************************************/
 
@@ -52,13 +64,20 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
     
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    var sum = 0;    
+    /* try chaining range() and reduce() */
 
-    expect(233168).toBe(FILL_ME_IN);
+    sum = _.chain(_.range(1, 1000))
+                    .filter(function(x) { return (x % 3 === 0 || x % 5 === 0) } )
+                    .reduce(function(sum, x) { return sum + x } )
+                    .value();
+
+
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
@@ -71,17 +90,32 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
-  it("should count the ingredient occurrence (functional)", function () {
-    var ingredientCount = { "{ingredient name}": 0 };
 
+
+
+// This solution works, but does not use the Reduce function. I don't know if it's the answer you're looking for.  
+  it("should count the ingredient occurrence (functional)", function () {
+  var ingredientCount = { "{ingredient name}": 0 }; 
+    
+   ingredientCountArray =  _.chain(products)
+                      .map(function (cv, i, products) {return products[i].ingredients;})
+                      .flatten()
+                      .map(function (cv, i) {
+                        if(ingredientCount[cv] == undefined || ingredientCount[cv] == NaN) { ingredientCount[cv] = 1 } else { 
+                          ingredientCount[cv] = ingredientCount[cv] + 1 } 
+                        })
+                     .value();
+                                         
+               
     /* chain() together map(), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
-  });
-
+    expect(ingredientCount['mushrooms']).toBe(2);
+  }); 
+               
+ 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
   /*
