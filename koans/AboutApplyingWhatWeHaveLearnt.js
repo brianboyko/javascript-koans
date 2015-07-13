@@ -116,11 +116,40 @@ describe("About Applying What We Have Learnt", function() {
   }); 
                
  
-  /*********************************************************************************/
-  /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
   it("should find the largest prime factor of a composite number", function () {
-  
+    
+    var findPrimes = function(maxValue, primes, value) {
+        if (primes === undefined || value === undefined) {
+            var primes = [2];
+            var value = 3;
+        };
+        if (value <= maxValue) {
+            if (primes.some(function(el) {
+                return value % el === 0
+            })) {
+                return findPrimes(maxValue, primes, value + 2);
+            } else {
+                primes.push(value);
+                return findPrimes(maxValue, primes, value + 2);
+            };
+        };
+        return primes;
+    };
+
+    var largestPrimeFactor = function(composite){
+      var primesLower = findPrimes(composite - 1);
+      primesLower.reverse();
+      for(var i = 0; i < primesLower.length; i++){
+        console.log(i);
+          if(composite % primesLower[i] === 0){
+            var output = primesLower.splice(i, 1)
+                        i = primesLower.length + 1;
+          } // end if
+      }; // end for
+      return output;
+    };
+
+
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
@@ -139,5 +168,7 @@ describe("About Applying What We Have Learnt", function() {
   it("should find the 10001st prime", function () {
 
   });
-  */
+
+
+
 });
