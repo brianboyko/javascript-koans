@@ -293,48 +293,51 @@ describe("About Applying What We Have Learnt", function() {
   it("should find the 10001st prime", function () {
 
    var findNPrimes = function(n, primes, value) {
-       if (primes === undefined || value === undefined) {
-           var primes = [2];
-           var value = 3;
-           primes.flag = "inprogress"
+     if (primes === undefined || value === undefined) {
+       var primes = [2];
+       var value = 3;
+       primes.flag = "initializing";
+     }
+
+     if (primes.length >= n) {
+       primes.flag = "complete";
+       return primes;
+     }
+
+     if (primes.length < n) {
+
+       if (primes.some(function(el) {
+         return value % el === 0;
+       })) {
+         return findNPrimes(n, primes, value + 2);
+       } else {
+         primes.push(value);
+
+         if (primes.length % 1000 === 0 && primes.flag != "returned") {
+           console.log("found " + primes.length + "primes");
+           primes.flag = "breaking";
+           console.log(primes.flag);
+           return primes;
+         } // this breaks up the call stack by forcing the recursion to resolve after each 1000 primes.
+
+         primes.flag = "incomplete";
+         return findNPrimes(n, primes, value + 2);
        }
-
-       if (primes.length >= n) {
-         primes.flag = "complete";
-         return primes;
-       } 
-
-       if (primes.length < n) {
-
-           if (primes.length % 1000 === 0) {
-               console.log("found " + primes.length + "primes");
-               primes.flag = "incomplete";
-               console.log(primes + " " + primes.flag);
-               return primes;
-           } // this breaks up the call stack by forcing the recursion to resolve after each 1000 primes.
-
-               console.log(primes.flag);
-
-
-           if (primes.some(function(el) {
-               return value % el === 0;
-           })) {
-               return findNPrimes(n, primes, value + 2);
-           } else {
-               primes.push(value);
-               return findNPrimes(n, primes, value + 2);
-           }
-       }
+     }
 
    }; // end findPrimes
 
-   var findNthPrime = function(n) {
-       console.log("initializing...");
-       var answerArray = findNPrimes(n);
-       return answerArray[n - 1];
+   var findNthPrime = function(n, primes, value) {
+     var answerArray = findNPrimes(n, primes, value);
+     while (answerArray.flag != "complete") { // if it got broken because it was %1000; this loop starts it back up again with a new, lovely, shiny call stack. 
+       answerArray.flag = "returned";
+       answerArray = findNPrimes(n, answerArray, answerArray[answerArray.length -
+         1] + 2);
+     } // end while loop. 
+     return answerArray[n - 1];
    };
 
-   expect(findNthPrime(10)).toBe(29);
+   expect(findNthPrime(10001)).toBe(104743);
 
   });
 
