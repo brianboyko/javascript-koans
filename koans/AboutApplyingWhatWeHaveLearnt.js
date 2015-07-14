@@ -288,12 +288,41 @@ describe("About Applying What We Have Learnt", function() {
     expect(diffHollywoodSquares(1, 10)).toBe(1740); 
   });
 
-/*
+
 
   it("should find the 10001st prime", function () {
 
+   var findNPrimes = function(n, primes, value) {
+     if (primes === undefined || value === undefined) {
+       var primes = [2];
+       var value = 3;
+     }
+     if (primes.length < n) {
+       if (primes.length % 1000 === 0) {
+         console.log("found " + primes.length + "primes");
+       }
+       if (primes.some(function(el) {
+         return value % el === 0;
+       })) {
+         return findNPrimes(n, primes, value + 2);
+       } else {
+         primes.push(value);
+         return findNPrimes(n, primes, value + 2);
+       }
+     }
+     console.log(primes);
+     return primes;
+   }; // end findPrimes
+
+   var findNthPrime = function(n) {
+    console.log("initializing...");
+     var answerArray = findNPrimes(n);
+     return answerArray[n - 1];
+   };
+
+   expect(findNthPrime(10)).toBe(29);
+
   });
 
-*/
 
 });
