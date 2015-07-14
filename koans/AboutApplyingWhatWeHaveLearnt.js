@@ -252,9 +252,41 @@ describe("About Applying What We Have Learnt", function() {
     expect(smallestDiv(20)).toBe(232792560);
   });
 
+
   it("should find the difference between the sum of the squares and the square of the sums", function () {
 // I am assuming you are looking for the sum of the square of a range of numbers, versus the square of the sum of a range of numbers, i.e, function (1, 4) should return (1+2+3+4)^2 - (1^2 + 2^2 + 3^2 + 4^2) 
 
+  var sumOfSquares = function(low, high) { // low inclusive, high exclusive. 
+    var initArray = _.range(low, high);
+    console.log("sumOfSq-initArray: " + initArray);
+    var squaredArray = initArray.map(function(cv) {
+      return Math.pow(cv, 2);
+    });
+    console.log("sumOfSq-squaredArray: " + squaredArray);
+    var output = squaredArray.reduce(function(output, cv) {
+      return output = output + cv;
+    });
+    console.log("sumOfSq-output: " + output);
+    return output;
+  };
+
+  var squareOfSum = function(low, high) { // low inclusive, high exclusive. 
+    var initArray = _.range(low, high);
+    console.log("sqOfSum-initArray: " + initArray);
+    var summed = initArray.reduce(function(summed, cv) {
+      return summed = summed + cv;
+    });
+    console.log("sqOfSum-summed: " + summed);
+    console.log("sqOfSum-result: " + Math.pow(summed, 2));
+    return Math.pow(summed, 2);
+  };
+
+  var diffHollywoodSquares = function(low, high) { // low inclusive, high exclusive. 
+    return squareOfSum(low, high) - sumOfSquares(low, high) ;
+  };
+
+    expect(diffHollywoodSquares(1, 10)).toBe(1740); 
+  });
 
 /*
 
