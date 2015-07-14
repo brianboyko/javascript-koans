@@ -127,7 +127,7 @@ describe("About Applying What We Have Learnt", function() {
             if (primes.some(function(el) {
                 return value % el === 0
             })) {
-                return findPrimes(maxValue, primes, value + 2);
+                return findPrimes(maxValue, primes, value + 2); // because no even number can be prime.
             } else {
                 primes.push(value);
                 return findPrimes(maxValue, primes, value + 2);
@@ -180,15 +180,83 @@ describe("About Applying What We Have Learnt", function() {
 
     expect(largestPalindrome()).toBe(906609); // 913 * 993)
   });
-/*
+
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
-      
-    
+
+        var isDivisible = function(test, mrArray){
+          return mrArray.every(function(cv){return test % cv === 0});
+        };
+
+// This WILL work and return 232792560 --- in about 3 years. *sigh* - Okay, can't brute-force this. 
+/*        
+      var smallestDiv = function(){
+        // all numbers are divisible by 1, all numbers divisible by 10 are also divisible by 20, 5, & 2, all numbers divisible by 12 are also disible by 6, 3... you get the picture.   
+        var factors = _.range(11, 21)
+        var startvalue = factors.reduce(function(a, b){return a*b;}); // 670442572800 - this is our upper bound
+        var king = "error";
+        
+
+        for(var i = 670442572800 * 2; i > 0; i = i - 20){
+          if(isDivisible(i, factors)) {console.log(king); king = i} // end if
+          } // endfor loop
+          
+        return king;
+      }; // end smallestDiv();
+*/
+
+
+ var smallestDiv = function(topOfRange) {
+
+   var findPrimes = function(maxValue, primes, value) {
+     if (primes === undefined || value === undefined) {
+       var primes = [2];
+       var value = 3;
+     }
+     if (value <= maxValue) {
+       if (primes.some(function(el) {
+         return value % el === 0;
+       })) {
+         return findPrimes(maxValue, primes, value + 2);
+       } else {
+         primes.push(value);
+         return findPrimes(maxValue, primes, value + 2);
+       }
+     }
+     return primes;
+   }; // end findPrimes
+   
+   var maxExpo = Math.floor(Math.sqrt(topOfRange));
+   var primeArray = findPrimes(topOfRange);
+   console.log(primeArray); // should be [2, 3, 5, 7, 11, 13, 17, 19]
+
+   var primeProds = primeArray.map(function(cv){
+    var candidate;
+      for(var i = 1; i <= maxExpo; i++){
+        if(Math.pow(cv, i) <= topOfRange){
+          candidate = Math.pow(cv, i);
+        } else { i = maxExpo + 1; } // end if 
+      }// end for
+      return candidate;
+    });// end map which finds primeProds - should be [16, 9, 5, 7, 11, 13, 17, 19]
+
+   console.log(primeProds);
+   
+   var output = primeProds.reduce(function(product, cv) {
+     return product = product * cv;
+   }, 1);
+   
+   console.log(output);
+   return output;
+ };
+
+    expect(smallestDiv(20)).toBe(232792560);
   });
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
-    
-  });
+// I am assuming you are looking for the sum of the square of a range of numbers, versus the square of the sum of a range of numbers, i.e, function (1, 4) should return (1+2+3+4)^2 - (1^2 + 2^2 + 3^2 + 4^2) 
+
+
+/*
 
   it("should find the 10001st prime", function () {
 
